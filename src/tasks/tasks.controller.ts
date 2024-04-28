@@ -9,7 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import {  } from './tasks-status.enum';
+import {} from './tasks-status.enum';
+import { Task } from './tasks.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { FindTaskDto } from './dto/find-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -18,30 +19,25 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 export class TasksController {
   constructor(private taskService: TasksService) {}
 
-  // @Get()
-  // getTasks(@Query() findTaskDto: FindTaskDto): Task[] {
-  //   // If user insert queries, then run findTask(), otherwise, run getAllTask()
-  //   if (Object.keys(findTaskDto).length) {
-  //     return this.taskService.findTask(findTaskDto);
-  //   } else {
-  //     return this.taskService.getAllTask();
-  //   }
-  // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task> {
+    return this.taskService.getTaskById(id);
+  }
 
   // @Get('/:id')
   // getTaskById(@Param('id') id: string): Task {
   //   return this.taskService.getTaskById(id);
   // }
 
-  // @Post()
-  // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-  //   return this.taskService.createTask(createTaskDto);
-  // }
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskService.createTask(createTaskDto);
+  }
 
-  // @Delete('/:id')
-  // deleteTaskById(@Param('id') id: string): void {
-  //   return this.taskService.deleteTaskById(id);
-  // }
+  @Delete('/:id')
+  deleteTaskById(@Param('id') id: string): Promise<void> {
+    return this.taskService.deleteTaskById(id);
+  }
 
   // @Patch('/:id/status')
   // updateTaskStatus(
