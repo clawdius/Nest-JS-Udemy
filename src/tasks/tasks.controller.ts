@@ -19,6 +19,11 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 export class TasksController {
   constructor(private taskService: TasksService) {}
 
+  @Get()
+  getTask(@Query() findTaskDto: FindTaskDto): Promise<Task[]> {
+    return this.taskService.getTask(findTaskDto);
+  }
+
   @Get('/:id')
   getTaskById(@Param('id') id: string): Promise<Task> {
     return this.taskService.getTaskById(id);
@@ -39,13 +44,13 @@ export class TasksController {
     return this.taskService.deleteTaskById(id);
   }
 
-  // @Patch('/:id/status')
-  // updateTaskStatus(
-  //   @Param('id') id: string,
-  //   @Body() updateTaskStatusDto: UpdateTaskDto,
-  // ): Task {
-  //   const { status } = updateTaskStatusDto;
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() updateTaskStatusDto: UpdateTaskDto,
+  ): Promise<Task> {
+    const { status } = updateTaskStatusDto;
 
-  //   return this.taskService.updateTaskStatus(id, status);
-  // }
+    return this.taskService.updateTaskStatus(id, status);
+  }
 }
